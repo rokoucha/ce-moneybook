@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Koumoku:</b>
+  <%= @table.koumoku %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @table.name %>
+</p>
+
+<p>
+  <b>Price:</b>
+  <%= @table.price %>
+</p>
+
+
+<%= link_to '編集', edit_table_path(@table) %> |
+<%= link_to '戻る', tables_path %>

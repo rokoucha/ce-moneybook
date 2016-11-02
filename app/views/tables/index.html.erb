@@ -1,0 +1,62 @@
+<h1>お小遣い帳</h1>
+
+<%= search_form_for @q do |f| %>
+  <div>
+    <%= f.label "品名" %>
+    <%= f.text_field :name_cont %>
+  </div>
+
+  <div>
+    <%= f.label "項目" %>
+    <%= f.text_field :koumoku_cont %>
+  </div>
+
+  <div>
+    <%= f.label "日付" %>
+    <%= f.date_select :updated_at_gteq, inlude_blank: true %>~
+    <%= f.date_select :updated_at_lteq, inlude_blank: true %>
+  </div>
+
+  <div>
+    <%= f.submit "検索" %>
+  </div>
+<% end %>
+
+<table border="1">
+  <tr>
+    <th><%= sort_link(@q, :updated_at, "日時")%></th>
+    <th><%= sort_link(@q, :koumoku, "項目")%></th>
+    <th><%= sort_link(@q, :name, "品名")%></th>
+    <th><%= sort_link(@q, :price, "値段")%></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% income_sum = 0 %>
+<% outgo_sum = 0 %>
+
+<% @tables.each do |table| %>
+  <tr>
+    <td><%= table.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+    <td><%= table.koumoku %></td>
+    <td><%= table.name %></td>
+    <% if table.koumoku == "収入" %>
+      <% income_sum += table.price %>
+      <td align="right"><%= table.price %></td>
+    <% else %>
+      <% outgo_sum += table.price%>
+      <td align="right">-<%= table.price %></td>
+    <% end %>
+    <td><%= link_to '編集', edit_table_path(table) %></td>
+    <td><%= link_to '削除', table, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<h1>収入:<%=income_sum %></h1>
+<h1>支出:<%=outgo_sum %></h1>
+<h1>残額:<%=income_sum - outgo_sum %></h1>
+
+<br />
+
+<%= link_to 'データを追加', new_table_path %>

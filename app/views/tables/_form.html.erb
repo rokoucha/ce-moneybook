@@ -1,0 +1,29 @@
+<%= form_for(@table) do |f| %>
+  <% if @table.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@table.errors.count, "error") %> prohibited this table from being saved:</h2>
+
+      <ul>
+      <% @table.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    項目<br />
+    <%= f.select :koumoku,[["収入","収入"],["食費","食費"],["趣味","趣味"]], :selected => "その他"%>
+  </div>
+  <div class="field">
+    品名<br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    金額<br />
+    <%= f.number_field :price %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
